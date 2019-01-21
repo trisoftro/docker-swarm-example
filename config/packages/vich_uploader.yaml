@@ -1,0 +1,14 @@
+vich_uploader:
+  db_driver: orm
+  storage: gaufrette
+  mappings:
+    document:
+      namer: Vich\UploaderBundle\Naming\OrignameNamer
+      directory_namer:
+        service: vich_uploader.namer_directory_current_date_time
+        options: {date_time_format: 'Y/d/m'}
+      inject_on_load: true
+      uri_prefix: /download/document
+      upload_destination: document_fs
+      delete_on_update: false
+      delete_on_remove: true

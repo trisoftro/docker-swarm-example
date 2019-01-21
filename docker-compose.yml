@@ -1,0 +1,36 @@
+version: '3.5'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: config/docker/php/Dockerfile
+    volumes:
+    - .:/app
+  nginx:
+    build:
+      context: .
+      dockerfile: config/docker/nginx/Dockerfile
+    ports:
+    - 80:80
+    volumes:
+    - .:/app
+  db:
+    image: mysql:5.7
+    volumes:
+    - mysql:/var/lib/mysql
+    env_file:
+    - .env
+  storage:
+    image: minio/minio:latest
+    ports:
+    - 81:9000
+    volumes:
+    - storage:/data
+    - ./config/docker/minio/config.json:/config/config.json:ro
+    command: server --config-dir=/config /data
+
+volumes:
+  mysql:
+  storage:
+

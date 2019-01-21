@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+        th { text-align: right; }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>View: {{ document.name }}</h1>
+
+        <br>
+
+        <table style="width: 100%;">
+            <tr>
+                <th>File:</th>
+                <td>{{ document.name }}</td>
+            </tr>
+            <tr>
+                <th>File size:</th>
+                <td>{{ document.file.size }}</td>
+            </tr>
+            <tr>
+                <th>Download link</th>
+                <td>
+                    <a href="{{ path('download', {id: document.id}) }}">{{ path('download', {id: document.id}) }}</a>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+        <pre style="margin: 0; padding: 10px; text-align: center; background: #feffea;">{{ path('download', {id: document.id}) }}</pre>
+
+        <br>
+        <p style="text-align: center;">
+            <a href="{{ path('default') }}">Upload more files</a>
+        </p>
+
+        <p style="text-align: center;">
+            Save this link! You won't be able to retrieve your file without it!
+        </p>
+    </div>
+{% endblock %}
