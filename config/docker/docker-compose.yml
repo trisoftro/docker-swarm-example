@@ -3,24 +3,24 @@ version: '3.5'
 services:
   php:
     build:
-      context: .
+      context: ../..
       dockerfile: config/docker/php/Dockerfile
     volumes:
-    - .:/app
+    - ../../:/app
   nginx:
     build:
-      context: .
+      context: ../..
       dockerfile: config/docker/nginx/Dockerfile
     ports:
     - 80:80
     volumes:
-    - .:/app
+    - ../../:/app
   db:
     image: mysql:5.7
     volumes:
     - mysql:/var/lib/mysql
     env_file:
-    - .env
+    - ../../.env
   storage:
     image: minio/minio:latest
     ports:

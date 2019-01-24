@@ -1,0 +1,62 @@
+version: '3.5'
+
+services:
+  php:
+    image: dilibau/docker-swarm-example-app:latest
+    deploy:
+      placement:
+        constraints:
+        - node.labels.role == php
+    configs:
+    - source: app_config
+      target: /app/.env
+      mode: 0555
+  nginx:
+    image: dilibau/docker-swarm-example-nginx:latest
+    deploy:
+      placement:
+        constraints:
+        - node.labels.role == nginx
+    ports:
+    - 80:80
+  db:
+    image: mysql:5.7
+    deploy:
+      placement:
+        constraints:
+        - node.labels.role == db
+    volumes:
+    - mysql:/var/lib/mysql
+    secrets:
+    - mysql-root-password
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql-root-password
+      MYSQL_USER: root
+      MYSQL_DATABASE: uploads
+  storage:
+    image: minio/minio:latest
+    deploy:
+      placement:
+        constraints:
+        - node.labels.role == storage
+    volumes:
+    - storage:/data
+    configs:
+    - source: minio_config
+      target: /config/config.json
+      mode: 0555
+    command: server --config-dir=/config /data
+
+volumes:
+  mysql:
+  storage:
+
+secrets:
+  mysql-root-password:
+    external: true
+
+configs:
+  minio_config:
+    external: true
+  app_config:
+    external: true

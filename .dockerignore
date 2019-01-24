@@ -5,11 +5,12 @@
 ###< misc ###
 
 ###> symfony/framework-bundle ###
+/.env
+/.env.*
 /.env.local
 /.env.*.local
-/public/bundles/
-/var/
-/vendor/
+/var/log/*
+/var/cache/*
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
